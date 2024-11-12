@@ -26,4 +26,5 @@ export const showAllAuthors = async (res: Response): Promise<void> => {
     console.error('Error processing request:', error);
     res.send('No authors found');
   }
+  
 };

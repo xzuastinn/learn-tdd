@@ -72,6 +72,18 @@ describe('showBookDtls', () => {
         expect(res.send).toHaveBeenCalledWith(`Book details not found for book ${id}`);
     });
 
+    it('should return 404 with message "Book [id] not found" if the book is null', async () => {
+        // Set `id` as a string
+        const id = '12345';
+    
+        // Act
+        await showBookDtls(res as Response, id);
+    
+        // Assert
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith(`Book details not found for book ${id}`);
+    });
+    
     it('should return 500 if there is an error fetching the book', async () => {
         // Mocking the Book model's findOne method to throw an error
         Book.findOne = jest.fn().mockImplementation(() => {
@@ -99,4 +111,17 @@ describe('showBookDtls', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.send).toHaveBeenCalledWith('Error fetching book 12345');
     });
+
+    it('should return 404 with message "Book [id] not found" if the book is null', async () => {
+        // Set `id` as a string
+        const id = 12345 as any as string;
+    
+        // Act
+        await showBookDtls(res as Response, id);
+    
+        // Assert
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith(`Book ${id} not found`);
+    });
+
 });
